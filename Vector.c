@@ -11,7 +11,7 @@ Vector init_vector(uint64_t data_size) {
 
 void double_vector_size(Vector* vector) {
     void* temp = realloc(vector->data, vector->capacity * vector->data_size * 2);
-    //TODO dodac free jezeli valgrind wywali
+
     if (temp) {
         vector->data = temp;
         vector->capacity *= 2;
