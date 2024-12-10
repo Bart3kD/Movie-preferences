@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 Vector init_vector() {
-    void* data = malloc(sizeof(int) * VECTOR_STARTING_SIZE);
+    int* data = (int*)malloc(sizeof(int) * VECTOR_STARTING_SIZE);
     if (!data) {
         printf("Failed to allocate memory for vector\n");
         exit(EXIT_FAILURE);
@@ -36,6 +36,6 @@ void append_to_vector(Vector* vector, int element) {
     if (vector->current_amount >= vector->capacity) {
         double_vector_size(vector);
     }
-    ((int*)vector->data)[vector->current_amount] = element;
+    (vector->data)[vector->current_amount] = element;
     vector->current_amount++;
 }

@@ -3,61 +3,27 @@
 #include "Node.h"
 #include "Vector.h"
 
-int main(void)
-{
-    // Node* node = init_node(0);
-    // Node* node1 = init_node(1);
-    //
-    // node->left = node1;
-    //
-    //
-    // Vector vec = init_vector();
-    //
-    // for (int i = 0; i < 20; i++) {
-    //     append_to_vector(&vec, i + 1);
-    // }
-    //
-    // for (int i = 0; i < vec.current_amount; i++) {
-    //     printf("%d ", ((int*)vec.data)[i]);
-    // }
-    //
-    // printf("\n");
-    // free_vector(&vec);
+int main(void) {
+    Node* root = init_node(10);
 
-    NodeVector* tree = init_tree();
+    append_to_tree(root, init_node(2));
+    append_to_tree(root, init_node(1));
+    append_to_tree(root, init_node(6));
+    append_to_tree(root, init_node(8));
+    append_to_tree(root, init_node(9));
+    append_to_tree(root, init_node(13));
+    append_to_tree(root, init_node(11));
+    append_to_tree(root, init_node(17));
 
-
-    Node* root = init_node(0);
-
-    tree->root = root;
-
-    Node* node1 = init_node(5);
-    Node* node2 = init_node(15);
-    Node* node3 = init_node(3);
-    Node* node4 = init_node(7);
-
-    append_to_tree(tree->root, node1);
-    append_to_tree(tree->root, node2);
-    append_to_tree(tree->root, node3);
-    append_to_tree(tree->root, node4);
-
-    printf("Tree in in-order traversal:\n");
-    print_tree(tree->root);
+    printf("Original tree (in-order): ");
+    print_tree(root);
     printf("\n");
 
-    Node* result = find_user(7, root);
-    if (result) {
-        printf("User with ID %d found.\n", result->id);
-    } else {
-        printf("User with ID %d not found.\n", 7);
-    }
+    root = delete_node(root, 10); // Delete the root node
 
-    free(node4);
-    free(node3);
-    free(node2);
-    free(node1);
-    free(root);
-    free(tree);
+    printf("Tree after deleting 10 (in-order): ");
+    print_tree(root);
+    printf("\n");
 
     return 0;
 }
