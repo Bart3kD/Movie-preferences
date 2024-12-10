@@ -1,0 +1,3 @@
+C:\Users\barto\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -E rm -f CMakeFiles\PD2test.dir/objects.a
+C:\Users\barto\AppData\Local\Programs\CLion\bin\mingw\bin\ar.exe qc CMakeFiles\PD2test.dir/objects.a @CMakeFiles\PD2test.dir\objects1.rsp
+C:\Users\barto\AppData\Local\Programs\CLion\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\PD2test.dir/objects.a -Wl,--no-whole-archive -o PD2test.exe -Wl,--out-implib,libPD2test.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\PD2test.dir\linkLibs.rsp
