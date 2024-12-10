@@ -2,27 +2,40 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
-Vector init_vector(uint64_t data_size) {
-    void* data = malloc(data_size * VECTOR_STARTING_SIZE);
-    Vector vector ={data, data_size, VECTOR_STARTING_SIZE, 0};
-    return vector;
-};
-
-void double_vector_size(Vector* vector) {
-    void* temp = realloc(vector->data, vector->capacity * vector->data_size * 2);
-
-    if (temp) {
-        vector->data = temp;
-        vector->capacity *= 2;
+Vector init_vector() {
+    void* data = malloc(sizeof(int) * VECTOR_STARTING_SIZE);
+    if (!data) {
+        printf("Failed to allocate memory for vector\n");
+        exit(EXIT_FAILURE);
     }
+    Vector vector = {data, 0, VECTOR_STARTING_SIZE};
+    return vector;
 }
 
-void append_to_vector(Vector* vector, void* element) {
-    if (vector->capacity <= vector->current_amount) {
+void double_vector_size(Vector* vector) {
+    void* temp = realloc(vector->data, vector->capacity * sizeof(int) * 2);
+    if (!temp) {
+        printf("Failed to allocate memory while resizing vector\n");
+        exit(EXIT_FAILURE);
+    }
+    vector->data = temp;
+    vector->capacity *= 2;
+}
+
+void free_vector(Vector* vector) {
+    free(vector->data);
+    vector->data = NULL;
+    vector->current_amount = 0;
+    vector->capacity = 0;
+}
+
+
+void append_to_vector(Vector* vector, int element) {
+    if (vector->current_amount >= vector->capacity) {
         double_vector_size(vector);
     }
-
-    memcpy((char*)vector->data + vector->data_size * vector->current_amount, element, vector->data_size);
+    ((int*)vector->data)[vector->current_amount] = element;
     vector->current_amount++;
 }

@@ -67,6 +67,12 @@ build CMakeFiles/PD2test.dir/Vector.c.obj: C_COMPILER__PD2test_unscanned_Debug C
   OBJECT_DIR = CMakeFiles\PD2test.dir
   OBJECT_FILE_DIR = CMakeFiles\PD2test.dir
 
+build CMakeFiles/PD2test.dir/Node.c.obj: C_COMPILER__PD2test_unscanned_Debug C$:/Users/Bartek/Desktop/Code/C/PD2test/Node.c || cmake_object_order_depends_target_PD2test
+  DEP_FILE = CMakeFiles\PD2test.dir\Node.c.obj.d
+  FLAGS = -g -std=gnu2x -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\PD2test.dir
+  OBJECT_FILE_DIR = CMakeFiles\PD2test.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target PD2test
@@ -75,7 +81,7 @@ build CMakeFiles/PD2test.dir/Vector.c.obj: C_COMPILER__PD2test_unscanned_Debug C
 #############################################
 # Link the executable PD2test.exe
 
-build PD2test.exe: C_EXECUTABLE_LINKER__PD2test_Debug CMakeFiles/PD2test.dir/main.c.obj CMakeFiles/PD2test.dir/User.c.obj CMakeFiles/PD2test.dir/Vector.c.obj
+build PD2test.exe: C_EXECUTABLE_LINKER__PD2test_Debug CMakeFiles/PD2test.dir/main.c.obj CMakeFiles/PD2test.dir/User.c.obj CMakeFiles/PD2test.dir/Vector.c.obj CMakeFiles/PD2test.dir/Node.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\PD2test.dir

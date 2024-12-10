@@ -10,13 +10,14 @@
 
 typedef struct Vector {
     void* data;
-    uint64_t data_size;
     int current_amount;
     int capacity;
 } Vector;
 
-Vector init_vector(uint64_t data_size);
+Vector init_vector();
 void double_vector_size(Vector* vector);
-void append_to_vector(Vector* vector, void* element);
+void append_to_vector(Vector* vector, int element);
+void free_vector(Vector* vector);
+
 
 #endif //VECTOR_H

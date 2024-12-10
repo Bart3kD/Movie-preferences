@@ -1,33 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "User.h"
+#include "Node.h"
 #include "Vector.h"
-
-User init_user_2(Vector* vector, uint64_t data_size, Vector* movies, User* parent) {
-    User user = init_user(data_size, movies, parent);
-    printf("Init user arrived here\n");
-    append_to_vector(vector, &user);
-    printf("Init user arrived here 2\n");
-    return user;
-}
-
-void append_movie(unsigned long user_id, int movie) {
-
-};
 
 int main(void)
 {
-    Vector users = init_vector(sizeof(User*));
+    // Node* node = init_node(0);
+    // Node* node1 = init_node(1);
+    //
+    // node->left = node1;
+    //
+    //
+    // Vector vec = init_vector();
+    //
+    // for (int i = 0; i < 20; i++) {
+    //     append_to_vector(&vec, i + 1);
+    // }
+    //
+    // for (int i = 0; i < vec.current_amount; i++) {
+    //     printf("%d ", ((int*)vec.data)[i]);
+    // }
+    //
+    // printf("\n");
+    // free_vector(&vec);
 
-    Vector movies = init_vector(sizeof(int));
-    Vector movies2 = init_vector(sizeof(int));
-    printf("Arrived here\n ");
-    User root = init_user_2(&users, 0, &movies, NULL);
-    User child1 = init_user_2(&users,1, &movies2, &root);
-    printf("Arrived here 2\n ");
-    for (int i = 0; i <= users.current_amount; i++) {
-        printf("%p",(User*)&users.data[i * users.data_size]);
+    NodeVector* tree = init_tree();
+
+
+    Node* root = init_node(0);
+
+    tree->root = root;
+
+    Node* node1 = init_node(5);
+    Node* node2 = init_node(15);
+    Node* node3 = init_node(3);
+    Node* node4 = init_node(7);
+
+    append_to_tree(tree->root, node1);
+    append_to_tree(tree->root, node2);
+    append_to_tree(tree->root, node3);
+    append_to_tree(tree->root, node4);
+
+    printf("Tree in in-order traversal:\n");
+    print_tree(tree->root);
+    printf("\n");
+
+    Node* result = find_user(7, root);
+    if (result) {
+        printf("User with ID %d found.\n", result->id);
+    } else {
+        printf("User with ID %d not found.\n", 7);
     }
 
-    printf("%d\n", child1.parent->id);
+    free(node4);
+    free(node3);
+    free(node2);
+    free(node1);
+    free(root);
+    free(tree);
+
+    return 0;
 }

@@ -4,7 +4,7 @@ project(PD2test C)
 set(CMAKE_C_STANDARD 23)
 
 add_executable(PD2test main.c
-        User.h
-        User.c
         Vector.h
-        Vector.c)
+        Vector.c
+        Node.h
+        Node.c)
