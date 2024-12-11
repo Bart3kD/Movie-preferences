@@ -128,54 +128,6 @@ PD2test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/build
 .PHONY : PD2test/fast
 
-Node.obj: Node.c.obj
-.PHONY : Node.obj
-
-# target to build an object file
-Node.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/Node.c.obj
-.PHONY : Node.c.obj
-
-Node.i: Node.c.i
-.PHONY : Node.i
-
-# target to preprocess a source file
-Node.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/Node.c.i
-.PHONY : Node.c.i
-
-Node.s: Node.c.s
-.PHONY : Node.s
-
-# target to generate assembly for a file
-Node.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/Node.c.s
-.PHONY : Node.c.s
-
-Vector.obj: Vector.c.obj
-.PHONY : Vector.obj
-
-# target to build an object file
-Vector.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/Vector.c.obj
-.PHONY : Vector.c.obj
-
-Vector.i: Vector.c.i
-.PHONY : Vector.i
-
-# target to preprocess a source file
-Vector.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/Vector.c.i
-.PHONY : Vector.c.i
-
-Vector.s: Vector.c.s
-.PHONY : Vector.s
-
-# target to generate assembly for a file
-Vector.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\PD2test.dir\build.make CMakeFiles/PD2test.dir/Vector.c.s
-.PHONY : Vector.c.s
-
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -209,12 +161,6 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... PD2test
-	@echo ... Node.obj
-	@echo ... Node.i
-	@echo ... Node.s
-	@echo ... Vector.obj
-	@echo ... Vector.i
-	@echo ... Vector.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
