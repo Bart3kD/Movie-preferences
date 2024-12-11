@@ -7,4 +7,5 @@ add_executable(PD2test main.c
         Vector.h
         Vector.c
         Node.h
-        Node.c)
+        Node.c
+)

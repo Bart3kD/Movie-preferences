@@ -311,7 +311,7 @@ Node* find_min(Node* node) {
 
 Node* delete_node(Node* root, int id) {
     if (root == NULL) {
-        return root;
+        return NULL;
     }
 
     if (id < root->id) {
@@ -319,21 +319,18 @@ Node* delete_node(Node* root, int id) {
     } else if (id > root->id) {
         root->right = delete_node(root->right, id);
     } else {
-        if (root->left == NULL && root->right == NULL) {
-            free(root);
-            return NULL;
-        }
-
+        // Node to be deleted found
         if (root->left == NULL) {
             Node* temp = root->right;
-            free(root);
+            root->right = NULL;  // Avoid recursive free
             return temp;
         } else if (root->right == NULL) {
             Node* temp = root->left;
-            free(root);
+            root->left = NULL;  // Avoid recursive free
             return temp;
         }
 
+        // Node with two children
         Node* temp = find_min(root->right);
         root->id = temp->id;
         root->right = delete_node(root->right, temp->id);
@@ -342,13 +339,9 @@ Node* delete_node(Node* root, int id) {
     return root;
 }
 
+
 void delete_user(Node** root, int userID) {
     if (!root || !(*root)) {
-        printf("ERROR\n");
-        return;
-    }
-
-    if (userID == 0) {
         printf("ERROR\n");
         return;
     }
@@ -361,6 +354,7 @@ void delete_user(Node** root, int userID) {
 
     Node* parent = user->parent;
 
+    // Reassign children to parent
     if (user->children) {
         for (int i = 0; i < user->children->length; i++) {
             Node* child = user->children->nodes[i];
@@ -373,6 +367,7 @@ void delete_user(Node** root, int userID) {
         }
     }
 
+    // Remove from parent's children vector
     if (parent && parent->children) {
         NodeVector* siblings = parent->children;
         for (int i = 0; i < siblings->length; i++) {
@@ -386,10 +381,13 @@ void delete_user(Node** root, int userID) {
         }
     }
 
-    *root = delete_node(*root, userID);
+    // Free the user's resources and remove it from the tree
+    free_node(user);
+    *root = delete_node(*root, userID);  // This removes the node from the tree without re-freeing it.
 
     printf("OK\n");
 }
+
 
 
 
