@@ -80,10 +80,12 @@ CMakeFiles/PD2test.dir/main.c.obj: C:/Users/barto/OneDrive/Pulpit/Code/C/PD2/mai
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
+  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sec_api/string_s.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/stddef.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/stdint.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/stdlib.h \
+  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/string.h \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/swprintf.inl \
   C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/vadefs.h \
   C:/Users/barto/OneDrive/Pulpit/Code/C/PD2/Node.h \

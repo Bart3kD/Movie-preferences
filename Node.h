@@ -39,7 +39,8 @@ struct NodeVector {
 
 
 NodeVector* init_tree();
-void add_child(Node* parent, Node* child);
+void add_child(Node* root, int parentID, int userID);
+void add_existing_child(Node* parent, Node* child);
 void append_to_tree(Node* root, Node* user);
 void print_tree(Node* root);
 void delete_user(Node** root, int userID);

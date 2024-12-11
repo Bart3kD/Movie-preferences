@@ -39,39 +39,82 @@ NodeVector* init_node_vector() {
     return vector;
 }
 
-void add_child(Node* parent, Node* child) {
-    if (!parent || !child) {
-        printf("Invalid input for add_child");
+void add_child(Node* root, int parentID, int userID) {
+    if (!root) {
+        printf("ERROR\n");
         return;
     }
 
+    Node* parent = find_user(parentID, root);
+    if (!parent) {
+        printf("ERROR\n");
+        return;
+    }
+
+    if (find_user(userID, root)) {
+        printf("ERROR\n");
+        return;
+    }
+
+    Node* user = init_node(userID);
+    if (!user) {
+        printf("ERROR: Failed to create user node\n");
+        return;
+    }
+
+    append_to_tree(root, user);
 
     if (!parent->children) {
         parent->children = init_node_vector();
         if (!parent->children) {
-            printf("Failed to allocate memory for children");
+            printf("ERROR: Failed to initialize children vector for parent ID %d\n", parentID);
+            free_node(user);
             return;
         }
     }
 
     NodeVector* children = parent->children;
-
     if (children->length >= children->capacity) {
         int new_capacity = children->capacity * 2;
-        Node** temp = (Node**)realloc(children->nodes, sizeof(Node*) * new_capacity);
+        Node** temp = realloc(children->nodes, sizeof(Node*) * new_capacity);
         if (!temp) {
-            printf("Failed to double the children vector capacity");
+            printf("ERROR: Failed to expand children vector\n");
+            free_node(user);
             return;
         }
         children->nodes = temp;
         children->capacity = new_capacity;
     }
 
-    children->nodes[children->length] = child;
+    children->nodes[children->length] = user;
     children->length++;
 
-    child->parent = parent;
+    user->parent = parent;
+
+    printf("OK\n");
 }
+
+void add_existing_child(Node* parent, Node* child) {
+    if (!parent || !child) return;
+
+    if (!parent->children) {
+        parent->children = malloc(sizeof(NodeVector));
+        parent->children->nodes = malloc(sizeof(Node*) * 2); // Initial capacity
+        parent->children->capacity = 2;
+        parent->children->length = 0;
+    }
+
+    // Resize if necessary
+    if (parent->children->length == parent->children->capacity) {
+        parent->children->capacity *= 2;
+        parent->children->nodes = realloc(parent->children->nodes, parent->children->capacity * sizeof(Node*));
+    }
+
+    // Add the child
+    parent->children->nodes[parent->children->length++] = child;
+}
+
+
 
 void add_movie(Node* user, int movie) {
     if (!user) {
@@ -87,6 +130,7 @@ void add_movie(Node* user, int movie) {
         i--;
     }
 
+    printf("OK\n");
     movies[i + 1] = movie;
     user->movies.current_amount++;
 }
@@ -103,23 +147,38 @@ Vector merge_movies(Node* user, Node* parent) {
         int* parent_data = parent_movies->data;
 
         if (user_data[user_index] < parent_data[parent_index]) {
-            append_to_vector(&result, user_data[user_index]);
+            if (result.current_amount == 0 || result.data[result.current_amount - 1] != user_data[user_index]) {
+                append_to_vector(&result, user_data[user_index]);
+            }
             user_index++;
+        } else if (user_data[user_index] > parent_data[parent_index]) {
+            if (result.current_amount == 0 || result.data[result.current_amount - 1] != parent_data[parent_index]) {
+                append_to_vector(&result, parent_data[parent_index]);
+            }
+            parent_index++;
         } else {
-            append_to_vector(&result, parent_data[parent_index]);
+            // Both are equal, add only once
+            if (result.current_amount == 0 || result.data[result.current_amount - 1] != user_data[user_index]) {
+                append_to_vector(&result, user_data[user_index]);
+            }
+            user_index++;
             parent_index++;
         }
     }
 
     while (user_index < user_movies->current_amount) {
-        int* user_data = (int*)user_movies->data;
-        append_to_vector(&result, user_data[user_index]);
+        int* user_data = user_movies->data;
+        if (result.current_amount == 0 || result.data[result.current_amount - 1] != user_data[user_index]) {
+            append_to_vector(&result, user_data[user_index]);
+        }
         user_index++;
     }
 
     while (parent_index < parent_movies->current_amount) {
-        int* parent_data = (int*)parent_movies->data;
-        append_to_vector(&result, parent_data[parent_index]);
+        int* parent_data = parent_movies->data;
+        if (result.current_amount == 0 || result.data[result.current_amount - 1] != parent_data[parent_index]) {
+            append_to_vector(&result, parent_data[parent_index]);
+        }
         parent_index++;
     }
 
@@ -127,9 +186,10 @@ Vector merge_movies(Node* user, Node* parent) {
 }
 
 
+
 void remove_movie(Node* user, int movie) {
     if (!user || user->movies.current_amount == 0) {
-        printf("ERROR");
+        printf("ERROR\n");
         return;
     }
 
@@ -148,9 +208,9 @@ void remove_movie(Node* user, int movie) {
     }
 
     if (!found) {
-        printf("Movie %d not found for user %d.\n", movie, user->id);
+        printf("ERROR\n");
     } else {
-        printf("Movie %d removed for user %d.\n", movie, user->id);
+        printf("OK\n");
     }
 }
 
@@ -160,21 +220,24 @@ void print_movies(Node* user) {
         return;
     }
 
-    if (user->movies.current_amount == 0) {
-        printf("User %d has no movies.\n", user->id);
+    if (user->movies.current_amount == 0 && (!user->parent || user->parent->movies.current_amount == 0)) {
+        printf("\n");
         return;
     }
 
     Node* parent = user->parent;
 
-    if (!parent) {
-        printf("User %d has no parent.\n", user->id);
+    // Merge movies from the user and their new parent
+    Vector merged_movies = init_vector();
+    if (parent) {
+        merged_movies = merge_movies(user, parent);
+    } else {
+        // Only the user's movies
+        merged_movies = user->movies;
     }
 
-    Vector merged_movies = merge_movies(user, parent);
-
     if (merged_movies.current_amount == 0) {
-        printf("No movies to display.\n");
+        printf("\n");
         free_vector(&merged_movies);
         return;
     }
@@ -184,8 +247,12 @@ void print_movies(Node* user) {
     }
 
     printf("\n");
-    free_vector(&merged_movies);
+
+    if (parent) {
+        free_vector(&merged_movies);
+    }
 }
+
 
 
 void append_to_tree(Node* root, Node* user) {
@@ -275,40 +342,56 @@ Node* delete_node(Node* root, int id) {
     return root;
 }
 
-
 void delete_user(Node** root, int userID) {
+    if (!root || !(*root)) {
+        printf("ERROR\n");
+        return;
+    }
+
     if (userID == 0) {
         printf("ERROR\n");
         return;
     }
 
-    Node* user = find_user(*root, userID);
-    if (user == NULL) {
+    Node* user = find_user(userID, *root);
+    if (!user) {
         printf("ERROR\n");
         return;
     }
 
+    Node* parent = user->parent;
 
-    if (user->children != NULL) {
+    if (user->children) {
         for (int i = 0; i < user->children->length; i++) {
             Node* child = user->children->nodes[i];
-            child->parent = user->parent;
+            child->parent = parent;
+            if (parent) {
+                add_existing_child(parent, child);
+            } else {
+                child->parent = NULL;
+            }
+        }
+    }
 
-
-            if (user->parent) {
-                add_child(user->parent, child);
+    if (parent && parent->children) {
+        NodeVector* siblings = parent->children;
+        for (int i = 0; i < siblings->length; i++) {
+            if (siblings->nodes[i] == user) {
+                for (int j = i; j < siblings->length - 1; j++) {
+                    siblings->nodes[j] = siblings->nodes[j + 1];
+                }
+                siblings->length--;
+                break;
             }
         }
     }
 
     *root = delete_node(*root, userID);
 
-    if (find_user(*root, userID) == NULL) {
-        printf("OK\n");
-    } else {
-        printf("ERROR\n");
-    }
+    printf("OK\n");
 }
+
+
 
 // CLEAN UP
 void free_node_vector(NodeVector* vector) {

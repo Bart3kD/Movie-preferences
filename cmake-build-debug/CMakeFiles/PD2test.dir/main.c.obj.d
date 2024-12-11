@@ -11,12 +11,14 @@ CMakeFiles/PD2test.dir/main.c.obj: \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/_mingw_off_t.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/swprintf.inl \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
+ C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/string.h \
+ C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/crtdefs.h \
+ C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sec_api/string_s.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/stdlib.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/limits.h \
- C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/crtdefs.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/malloc.h \
  C:/Users/barto/AppData/Local/Programs/CLion/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
