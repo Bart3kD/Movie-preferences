@@ -67,6 +67,7 @@ int main(void) {
 
 User* createUser(int id, User* parent) {
     User* user = (User*)malloc(sizeof(User));
+    memset(user, 0, sizeof(User));
     if (!user) {
         printf("User creation failed");
         exit(1);
@@ -113,9 +114,13 @@ void addUser(User* root, int parentId, int userId) {
         return;
     }
 
-    if (parent->childrenCount == parent->childrenCapacity) {
+    if (parent->childrenCount >= parent->childrenCapacity) {
         parent->childrenCapacity *= 2;
         parent->children = (User**)realloc(parent->children, sizeof(User*) * parent->childrenCapacity);
+        if (!parent->children) {
+            printf("Memory allocation failed\n");
+            exit(1);
+        }
     }
 
     User* user = createUser(userId, parent);
@@ -137,18 +142,24 @@ void delUser(User* root, int userId) {
 
     User* parent = user->parent;
 
+    while (parent->childrenCount + user->childrenCount > parent->childrenCapacity) {
+        parent->childrenCapacity *= 2;
+        parent->children = (User**)realloc(parent->children, sizeof(User*) * parent->childrenCapacity);
+        if (!parent->children) {
+            printf("Memory allocation failed\n");
+            exit(1);
+        }
+    }
+
     for (int i = 0; i < user->childrenCount; i++) {
         user->children[i]->parent = parent;
-        if (parent->childrenCount == parent->childrenCapacity) {
-            parent->childrenCapacity *= 2;
-            parent->children = (User**)realloc(parent->children, sizeof(User*) * parent->childrenCapacity);
-        }
         parent->children[parent->childrenCount++] = user->children[i];
     }
 
     for (int i = 0; i < parent->childrenCount; i++) {
         if (parent->children[i]->id == userId) {
-            memmove(&parent->children[i], &parent->children[i + 1], (parent->childrenCount - i - 1) * sizeof(User *));
+            memmove(&parent->children[i], &parent->children[i + 1],
+                    (parent->childrenCount - i - 1) * sizeof(User*));
             parent->childrenCount--;
             break;
         }
@@ -176,12 +187,23 @@ void addMovie(User* root, int userId, int movie) {
         }
     }
 
-    if (user->moviesCount == user->moviesCapacity) {
+    if (user->moviesCount >= user->moviesCapacity) {
         user->moviesCapacity *= 2;
         user->movies = (int*)realloc(user->movies, sizeof(int) * user->moviesCapacity);
+        if (!user->movies) {
+            printf("Memory allocation failed\n");
+            exit(1);
+        }
     }
 
-    user->movies[user->moviesCount++] = movie;
+
+    int i;
+    for (i = user->moviesCount - 1; i >= 0 && user->movies[i] > movie; i--) {
+        user->movies[i + 1] = user->movies[i];
+    }
+    user->movies[i + 1] = movie;
+    user->moviesCount++;
+
     printf("OK\n");
 }
 
@@ -212,36 +234,35 @@ void printUserMovies(User* root, int userId) {
         return;
     }
 
-    int parentMovieCount = user->parent ? user->parent->moviesCount : 0;
-    int movieCount = parentMovieCount + user->moviesCount;
+    User* parent = user->parent;
 
-    if (movieCount == 0) {
+    if (!parent) {
+        for (int i = 0; i < user->moviesCount; i++) {
+            printf("%d ", user->movies[i]);
+        }
         printf("\n");
         return;
     }
 
-    int* allMovies = (int*)malloc(sizeof(int) * movieCount);
-    int index = 0;
-
-    for (int i = 0; i < user->moviesCount; i++) {
-        allMovies[index++] = user->movies[i];
+    if ((parent->moviesCount + user->moviesCount) == 0) {
+        printf("\n");
+        return;
     }
 
-    if (user->parent) {
-        for (int i = 0; i < user->parent->moviesCount; i++) {
-            allMovies[index++] = user->parent->movies[i];
+    int userIndex = 0;
+    int parentIndex = 0;
+
+    while (userIndex < user->moviesCount && parentIndex < parent->moviesCount) {
+        if (user->movies[userIndex] < parent->movies[parentIndex]) {
+            printf("%d ", user->movies[userIndex++]);
+        } else if (user->movies[userIndex] > parent->movies[parentIndex]) {
+            printf("%d ", parent->movies[parentIndex++]);
+        } else {
+            printf("%d ", user->movies[userIndex++]);
+            parentIndex++;
         }
     }
-
-    qsort(allMovies, movieCount, sizeof(int), compareInts);
-    int lastPrinted = -1;
-    for (int i = 0; i < movieCount; i++) {
-        if (allMovies[i] != lastPrinted) {
-            printf("%d ", allMovies[i]);
-            lastPrinted = allMovies[i];
-        }
-    }
+    while (userIndex < user->moviesCount) printf("%d ", user->movies[userIndex++]);
+    while (parentIndex < parent->moviesCount) printf("%d ", parent->movies[parentIndex++]);
     printf("\n");
-
-    free(allMovies);
 }
