@@ -89,9 +89,12 @@ The program reads commands from standard input, one per line, and executes them 
 2. **Execution**:  
    Run the program and provide commands via standard input (or any input that you make):
    ```bash
-   ./movie < test.in
+   ./main < test.in
    ```
-   The program also works for manual inputs.
+   If you want to input data manually do:
+   ```bash
+   ./main
+   ```
 
 3. **Example Input**:
    ```
