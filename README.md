@@ -83,14 +83,15 @@ The program reads commands from standard input, one per line, and executes them 
 1. **Compilation**:  
    Compile the program using a C compiler, e.g., `gcc`:
    ```bash
-   gcc -o movie_prefs movie_prefs.c
+   gcc main.c -o main
    ```
 
 2. **Execution**:  
-   Run the program and provide commands via standard input:
+   Run the program and provide commands via standard input (or any input that you make):
    ```bash
-   ./movie_prefs < input.txt
+   ./movie < test.in
    ```
+   The program also works for manual inputs.
 
 3. **Example Input**:
    ```
